@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+@import "tailwindcss";
+@plugin "daisyui";
+
+.container {
+  max-width: 1470px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+body {
+  font-family: "Inter", sans-serif;
+}
+
+nav a {
+  font-size: 16px;
+  font-weight: 600;
+  color: black;
+}
+
+nav a.active {
+  color: #7F46EA;
+}
+
+.navbar-end a.active {
+  background: #7F46EA;
+  color: #fff;
+}
+
+.form-label {
+  @apply label text-[#001931] text-[18px] font-semibold pt-2;
+}
+
+.form-input {
+  @apply w-full px-[15px] py-2 text-[#464545] text-[15px] outline-0 border border-[#7f46ea63] focus:border-[#7F46EA] bg-[#F3F3F3] rounded;
+}
+
+.divider::before,
+.divider::after {
+  background: #7F46EA;
+  height: 1px;
+}
+
+button {
+  cursor: pointer;
+}
+.google-button {
+  @apply flex items-center justify-center gap-2 w-full border border-[#7F46EA] py-2 duration-200 bg-white hover:bg-[#ab82f82f] rounded text-[15px] text-[#141414] font-medium;
+}
