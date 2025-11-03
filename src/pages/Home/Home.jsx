@@ -1,10 +1,15 @@
 import React from 'react';
+import Banner from './Banner';
+import LatestProducts from './LatestProducts';
+
+const latestProductsPromise = fetch('http://localhost:3000/latest-product').then(res => res.json());
 
 const Home = () => {
     return (
-        <div>
-            <h2 className='text-5xl font-bold py-10 text-center'>This is Home</h2>
-        </div>
+        <>
+           <Banner></Banner>
+           <LatestProducts latestProductsPromise={latestProductsPromise}></LatestProducts>
+        </>
     );
 };
 

@@ -7,8 +7,50 @@ import { toast } from 'react-toastify';
 const Register = () => {
 
     const [showPass, setShowPass] = useState(false);
-    const {signWithGoogle} = use(AuthContext);
+    const {signWithGoogle, createUser, updateUser} = use(AuthContext);
     const navigate = useNavigate();
+
+
+    // Form SignIn / Register
+    const handleRegister = (e) => {
+        e.preventDefault();
+        const email = e.target.email.value;
+        const password = e.target.password.value;
+        const name = e.target.name.value;
+        const photo = e.target.photo.value;
+
+        createUser(email, password)
+            .then(result => {
+                const user = result.user;
+                updateUser(user, { displayName: name, photoURL: photo })
+                    .then(() => {
+                        const userInfo = {
+                            name: name,
+                            email: user.email,
+                            photoURL: photo,
+                        };
+                        fetch('http://localhost:3000/users', {
+                            method: 'POST',
+                            headers: {
+                                'content-type': 'application/json',
+                            },
+                            body: JSON.stringify(userInfo),
+                        })
+                            .then(res => res.json())
+                            .then(data => {
+                                console.log('data after user save:', data);
+                                toast.success('Account created successfully!');
+                                window.location.href = '/';
+                            });
+                    })
+                    .catch(error => {
+                        toast.error(error.code ? error.code.replace('auth/', '').replaceAll('-', ' ') : error.message);
+                    });
+            })
+            .catch(error => {
+                toast.error(error.code ? error.code.replace('auth/', '').replaceAll('-', ' ') : error.message);
+            });
+    };
 
 
     // Google Sign In
@@ -20,7 +62,6 @@ const Register = () => {
                     email: result.user.email,
                     photoURL: result.user.photoURL,
                 };
-
                 fetch('http://localhost:3000/users', {
                     method: 'POST',
                     headers: {
@@ -32,7 +73,6 @@ const Register = () => {
                     .then(data => {
                         console.log('data after user save:', data);
                     });
-
                 toast.success("Login successful!");
                 navigate(`${location.state ? location.state : '/'}`);
             })
@@ -48,7 +88,7 @@ const Register = () => {
                     <div className='max-w-[510px] mx-auto px-[25px] py-7 md:py-10 md:px-10 bg-white shadow-xl rounded-md border border-[#e7e7e798]'>
                         <h2 className='text-[#141414] text-center text-[24px] md:text-[28px] lg:text-[32px] font-semibold'>Register your account</h2>
                         <span className='block bg-[#E7E7E7] h-px w-full mt-[15px] mb-2.5 md:mt-5 md:mb-3'></span>
-                        <form >
+                        <form onSubmit={handleRegister}>
                             <fieldset className="fieldset">
                                 {/* Name Field */}
                                 <label className="form-label">Your Name</label>
