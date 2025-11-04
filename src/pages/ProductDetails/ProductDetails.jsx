@@ -32,6 +32,7 @@ const ProductDetails = () => {
             buyer_name: name,
             buyer_email: email,
             buyer_contact: contact,
+            status: status,
             buyer_image: user?.photoURL,
             bid_price: bid,
         };
@@ -49,6 +50,10 @@ const ProductDetails = () => {
                     bidModalRef.current.close();
                     toast.success('Bid submitted successfully!');
                     e.target.reset();
+                    newBid._id = data.insertedId;
+                    const newBids = [...bids, newBid];
+                    newBids.sort((a, b) => b.bid_price - a.bid_price);
+                    setBids(newBids);
                 }
             })
 
@@ -138,6 +143,50 @@ const ProductDetails = () => {
                 </div>
                 <div className='container'>
                     <h2 className='py-10 text-[30px] sm:text-[40px] lg:text-[45px] font-bold text-[#001931]'> Bids For This Products: <span className='text-[#7F46EA]'>{bids.length}</span></h2>
+
+                    <div> 
+                        <div className="w-full bg-white rounded-lg shadow-md overflow-scroll">
+                            <table className="min-w-full text-sm text-left text-gray-700">
+                                <thead className="bg-gray-100 text-gray-600 uppercase text-sm">
+                                    <tr>
+                                        <th className="px-6 py-3 font-semibold">SL No</th>
+                                        <th className="px-6 py-3 font-semibold">Product</th>
+                                        <th className="px-6 py-3 font-semibold">Seller</th>
+                                        <th className="px-6 py-3 font-semibold">Bid Price</th>
+                                        <th className="px-6 py-3 font-semibold">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {bids.map((bid, index) => ( <tr key={bid._id} className="shadow-sm">
+                                        <td className="px-6 py-4">{index + 1}</td>
+                                        <td className="px-6 py-4">
+                                            <div className="flex items-center space-x-3">
+                                                <div className="w-10 h-10 bg-gray-200 rounded-md overflow-hidden"> {bid.product?.image && ( <img src={bid.product.image} alt={bid.product.title} className="w-full h-full object-cover" /> )} </div>
+                                                <div>
+                                                    <p className="font-medium">{bid.product?.title}</p>
+                                                    <p className="text-gray-500 text-xs">${bid.product?.price}</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <div className="flex items-center space-x-3">
+                                                <div className="w-8 h-8 bg-gray-300 rounded-full overflow-hidden"> {bid.buyer_image && ( <img src={bid.buyer_image} alt={bid.buyer_name} className="w-full h-full object-cover" /> )} </div>
+                                                <div>
+                                                    <p className="font-medium">{bid.buyer_name}</p>
+                                                    <p className="text-gray-500 text-xs">{bid.buyer_email}</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 font-semibold">${bid.bid_price}</td>
+                                        <td className="px-6 py-4 space-x-2">
+                                            <button className="px-3 py-1 border border-green-500 text-green-500 rounded-md hover:bg-green-50 transition"> Accept Offer </button>
+                                            <button className="px-3 py-1 border border-red-500 text-red-500 rounded-md hover:bg-red-50 transition"> Reject Offer </button>
+                                        </td>
+                                    </tr>))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </>

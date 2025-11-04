@@ -6,6 +6,7 @@ import Register from "../pages/Register/Register";
 import AllProducts from "../pages/AllProducts/AllProducts";
 import PrivetRoute from "../context/PrivetRoute";
 import ProductDetails from "../pages/ProductDetails/ProductDetails";
+import MyBids from "../pages/MyBids/MyBids";
 
 
 export const router = createBrowserRouter([
@@ -30,7 +31,7 @@ export const router = createBrowserRouter([
             {
                 path: '/my-bids',
                 element: <PrivetRoute>
-                    <h2>My Bids</h2>
+                    <MyBids></MyBids>
                 </PrivetRoute>
             },
             {
