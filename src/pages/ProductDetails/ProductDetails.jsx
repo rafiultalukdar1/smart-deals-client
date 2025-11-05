@@ -60,13 +60,17 @@ const ProductDetails = () => {
     }
 
     useEffect(() => {
-        fetch(`http://localhost:3000/products/bids/${_id}`)
+        fetch(`http://localhost:3000/products/bids/${_id}`,{
+            headers : {
+                authorization: `Bearer ${user.accessToken}`
+            }
+        })
             .then(res => res.json())
             .then(data => {
                 console.log('Bids for this products', data);
                 setBids(data);
             })
-    },[_id]);
+    },[_id, user]);
     
 
     return (
@@ -145,7 +149,7 @@ const ProductDetails = () => {
                     <h2 className='py-10 text-[30px] sm:text-[40px] lg:text-[45px] font-bold text-[#001931]'> Bids For This Products: <span className='text-[#7F46EA]'>{bids.length}</span></h2>
 
                     <div> 
-                        <div className="w-full bg-white rounded-lg shadow-md overflow-scroll">
+                        <div className="w-full bg-white rounded-lg shadow-md overflow-hidden">
                             <table className="min-w-full text-sm text-left text-gray-700">
                                 <thead className="bg-gray-100 text-gray-600 uppercase text-sm">
                                     <tr>
