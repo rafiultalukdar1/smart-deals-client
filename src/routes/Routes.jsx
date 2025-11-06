@@ -7,6 +7,7 @@ import AllProducts from "../pages/AllProducts/AllProducts";
 import PrivetRoute from "../context/PrivetRoute";
 import ProductDetails from "../pages/ProductDetails/ProductDetails";
 import MyBids from "../pages/MyBids/MyBids";
+import CreateProduct from "../pages/CreateProduct/CreateProduct";
 
 
 export const router = createBrowserRouter([
@@ -37,7 +38,7 @@ export const router = createBrowserRouter([
             {
                 path: '/create-product',
                 element: <PrivetRoute>
-                    <h2>Create Product</h2>
+                    <CreateProduct></CreateProduct>
                 </PrivetRoute>
             },
             {
