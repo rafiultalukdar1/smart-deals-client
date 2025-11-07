@@ -1,8 +1,10 @@
-import axios from 'axios';
 import React from 'react';
 import { toast } from 'react-toastify';
+import useAxiosSecure from '../../context/useAxiosSecure';
 
 const CreateProduct = () => {
+
+    const axiosSecure = useAxiosSecure();
 
     const handleCreateProduct = (e) => {
         e.preventDefault();
@@ -22,13 +24,22 @@ const CreateProduct = () => {
         const description = e.target.description.value;
         const seller_contact = e.target.seller_contact.value;
         const created_at = new Date().toISOString();
+        const _id = `prod_${Date.now()}`;
 
-        const newProduct = {title, category, price_min, price_max, email, image, status, location, seller_image, seller_name, condition, usage, description, seller_contact, created_at};
+        const newProduct = {_id, title, category, price_min, price_max, email, image, status, location, seller_image, seller_name, condition, usage, description, seller_contact, created_at};
 
-        axios.post('http://localhost:3000/products', newProduct)
+        // axios.post('http://localhost:3000/products', newProduct)
+        //     .then(data => {
+        //         console.log(data.data);
+        //         if (data.data.insertedId) {
+        //             toast.success("Product added successfully!");
+        //         }
+        //     })
+
+        axiosSecure.post('/products', newProduct)
             .then(data => {
-                console.log(data.data);
                 if (data.data.insertedId) {
+                    console.log(data.data);
                     toast.success("Product added successfully!");
                 }
             })
