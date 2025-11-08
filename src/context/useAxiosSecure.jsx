@@ -32,6 +32,10 @@ const useAxiosSecure = () => {
                     });
             } else if (status === 403) {
                 console.log("Forbidden access!");
+                logOut()
+                    .then(() => {
+                        navigate('/login')
+                    });
             }
         })
 
